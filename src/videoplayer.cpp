@@ -192,6 +192,7 @@ void VideoPlayer::continueVideo()
   if (!videoPlaying)
   {
     std::cout << "Cannot continue video: No video is currently playing" << std::endl;
+    return;
   }
   if (!videoPaused)
   {
@@ -220,6 +221,7 @@ void VideoPlayer::showPlaying()
   if (!videoPlaying)
   {
     std::cout << "No video is currently playing" << std::endl;
+    return;
   }
   else
   {
