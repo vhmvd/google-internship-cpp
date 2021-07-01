@@ -12,6 +12,7 @@ class VideoPlayer
 private:
   VideoLibrary mVideoLibrary;
   bool videoPlaying;
+  bool videoPaused;
   std::string playingVideoName;
 
 public:

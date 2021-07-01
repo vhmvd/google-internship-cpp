@@ -52,6 +52,7 @@ void VideoPlayer::playVideo(const std::string &videoId)
     if (itr.getVideoId() == videoId)
     {
       videoFound = true;
+      videoPaused = false;
       break;
     }
   }
@@ -99,6 +100,7 @@ void VideoPlayer::playVideo(const std::string &videoId)
 
 void VideoPlayer::stopVideo()
 {
+  videoPaused = true;
   if (!videoPlaying)
   {
     std::cout << "Cannot stop video: No video is currently playing" << std::endl;
@@ -125,6 +127,7 @@ void VideoPlayer::playRandomVideo()
     std::cout << "No videos available" << std::endl;
     return;
   }
+  videoPaused = false;
   int randomId = rand() % mVideoLibrary.getVideos().size();
   std::vector<Video> videosVector = mVideoLibrary.getVideos();
   Video videoObject = videosVector[randomId];
@@ -151,12 +154,64 @@ void VideoPlayer::playRandomVideo()
 
 void VideoPlayer::pauseVideo()
 {
-  std::cout << "pauseVideo needs implementation" << std::endl;
+  if (!videoPlaying)
+  {
+    std::cout << "Cannot pause video: No video is currently playing" << std::endl;
+  }
+
+  if (videoPaused)
+  {
+    std::cout << "Video already paused: ";
+    for (Video itr : mVideoLibrary.getVideos())
+    {
+      if (itr.getVideoId() == playingVideoName)
+      {
+        std::cout << itr.getTitle() << std::endl;
+        return;
+      }
+    }
+  }
+  else
+  {
+    std::cout << "Pausing video: ";
+    for (Video itr : mVideoLibrary.getVideos())
+    {
+      if (itr.getVideoId() == playingVideoName)
+      {
+        std::cout << itr.getTitle() << std::endl;
+        videoPaused = true;
+        return;
+      }
+    }
+  }
 }
 
 void VideoPlayer::continueVideo()
 {
-  std::cout << "continueVideo needs implementation" << std::endl;
+  if(!videoPlaying)
+  {
+    std::cout << "Cannot continue video: No video is currently playing" << std::endl;
+  }
+  if(!videoPaused)
+  {
+    std::cout << "Cannot continue video: Video is not paused" << std::endl;
+    return;
+  }
+  else
+  {
+    std::cout << "Continuing video: ";
+    videoPaused = false;
+
+    for (Video itr : mVideoLibrary.getVideos())
+    {
+      if (itr.getVideoId() == playingVideoName)
+      {
+        std::cout << itr.getTitle() << std::endl;
+        videoPaused = true;
+        return;
+      }
+    }
+  }
 }
 
 void VideoPlayer::showPlaying()
