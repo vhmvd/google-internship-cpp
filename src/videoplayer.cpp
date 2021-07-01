@@ -145,6 +145,7 @@ void VideoPlayer::playRandomVideo()
   {
     std::cout << "Playing video: " << videoObject.getTitle() << std::endl;
     playingVideoName = videoObject.getVideoId();
+    videoPlaying = true;
   }
 }
 
