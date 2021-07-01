@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <cstdlib>
 
 void VideoPlayer::numberOfVideos()
 {
@@ -118,12 +119,33 @@ void VideoPlayer::stopVideo()
 
 void VideoPlayer::playRandomVideo()
 {
-  if(mVideoLibrary.getVideos().size() == 0)
+  srand(time(NULL));
+  if (mVideoLibrary.getVideos().size() == 0)
   {
     std::cout << "No videos available" << std::endl;
     return;
   }
-  
+  int randomId = rand() % mVideoLibrary.getVideos().size();
+  std::vector<Video> videosVector = mVideoLibrary.getVideos();
+  Video videoObject = videosVector[randomId];
+  if (videoPlaying)
+  {
+    for (Video itr : mVideoLibrary.getVideos())
+    {
+      if (itr.getVideoId() == playingVideoName)
+      {
+        std::cout << "Stopping video: " << itr.getTitle() << std::endl;
+        std::cout << "Playing video: " << videoObject.getTitle() << std::endl;
+        playingVideoName = videoObject.getVideoId();
+        return;
+      }
+    }
+  }
+  else
+  {
+    std::cout << "Playing video: " << videoObject.getTitle() << std::endl;
+    playingVideoName = videoObject.getVideoId();
+  }
 }
 
 void VideoPlayer::pauseVideo()
