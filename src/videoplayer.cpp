@@ -157,6 +157,7 @@ void VideoPlayer::pauseVideo()
   if (!videoPlaying)
   {
     std::cout << "Cannot pause video: No video is currently playing" << std::endl;
+    return;
   }
 
   if (videoPaused)
@@ -188,11 +189,11 @@ void VideoPlayer::pauseVideo()
 
 void VideoPlayer::continueVideo()
 {
-  if(!videoPlaying)
+  if (!videoPlaying)
   {
     std::cout << "Cannot continue video: No video is currently playing" << std::endl;
   }
-  if(!videoPaused)
+  if (!videoPaused)
   {
     std::cout << "Cannot continue video: Video is not paused" << std::endl;
     return;
@@ -216,7 +217,58 @@ void VideoPlayer::continueVideo()
 
 void VideoPlayer::showPlaying()
 {
-  std::cout << "showPlaying needs implementation" << std::endl;
+  if (!videoPlaying)
+  {
+    std::cout << "No video is currently playing" << std::endl;
+  }
+  else
+  {
+    std::cout << "Currently playing: ";
+    if (videoPaused)
+    {
+      for (Video itr : mVideoLibrary.getVideos())
+      {
+        if (itr.getVideoId() == playingVideoName)
+        {
+          std::cout << itr.getTitle() << " (" << itr.getVideoId() << ") [";
+          std::string videoNameStr;
+          for(std::string strItr: itr.getTags())
+          {
+            videoNameStr = videoNameStr + strItr + " ";
+          }
+          if(itr.getTags().size() != 0)
+          {
+            videoNameStr.pop_back();
+          }
+          videoNameStr += "]";
+          std::cout << videoNameStr << " - PAUSED" << std::endl;
+          return;
+        }
+      }
+    }
+    else
+    {
+      for (Video itr : mVideoLibrary.getVideos())
+      {
+        if (itr.getVideoId() == playingVideoName)
+        {
+          std::cout << itr.getTitle() << " (" << itr.getVideoId() << ") [";
+          std::string videoNameStr;
+          for(std::string strItr: itr.getTags())
+          {
+            videoNameStr = videoNameStr + strItr + " ";
+          }
+          if(itr.getTags().size() != 0)
+          {
+            videoNameStr.pop_back();
+          }
+          videoNameStr += "]";
+          std::cout << videoNameStr << std::endl;
+          return;
+        }
+      }
+    }
+  }
 }
 
 void VideoPlayer::createPlaylist(const std::string &playlistName)
